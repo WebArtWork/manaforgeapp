@@ -4,7 +4,6 @@ import { MenuComponent } from './menu.component';
 import { Routes, RouterModule } from '@angular/router';
 import { MenuJoinComponent } from './menu-join/menu-join.component';
 import { MenuWelcomeComponent } from './menu-welcome/menu-welcome.component';
-import { MenuCreateComponent } from './menu-create/menu-create.component';
 
 const routes: Routes = [
 	{
@@ -15,6 +14,6 @@ const routes: Routes = [
 
 @NgModule({
 	imports: [RouterModule.forChild(routes), CoreModule],
-	declarations: [MenuComponent, MenuJoinComponent, MenuWelcomeComponent, MenuCreateComponent]
+	declarations: [MenuComponent, MenuJoinComponent, MenuWelcomeComponent]
 })
 export class MenuModule {}

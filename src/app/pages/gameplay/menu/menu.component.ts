@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Manaforge } from 'src/app/modules/manaforge/interfaces/manaforge.interface';
 import { ManaforgeService } from 'src/app/modules/manaforge/services/manaforge.service';
 
 @Component({
@@ -8,7 +7,7 @@ import { ManaforgeService } from 'src/app/modules/manaforge/services/manaforge.s
 	standalone: false
 })
 export class MenuComponent {
-	screen: 'welcome' | 'join' | 'create' = 'welcome';
+	screen: 'welcome' | 'join' = 'welcome';
 
 	constructor(public mgs: ManaforgeService) {}
 }

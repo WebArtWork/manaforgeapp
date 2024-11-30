@@ -11,7 +11,7 @@ export class AdminsGuard {
 
 			if (user.is && user.is.admin) return true;
 
-			this.router.navigate(['/profile']);
+			this.router.navigate(['/menu']);
 
 			return false;
 		} else {

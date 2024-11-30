@@ -3,11 +3,6 @@
 	*ngIf="screen === 'welcome'"
 ></app-menu-welcome>
 
-<app-menu-create
-	(changeScreen)="screen = $event"
-	*ngIf="screen === 'create'"
-></app-menu-create>
-
 <app-menu-join
 	(changeScreen)="screen = $event"
 	*ngIf="screen === 'join'"

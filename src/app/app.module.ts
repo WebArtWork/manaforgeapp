@@ -63,6 +63,16 @@ const routes: Routes = [
 		children: [
 			/* gameplay */
 			{
+				path: 'create',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Create'
+					}
+				},
+				loadChildren: () => import('./pages/gameplay/create/create.module').then(m => m.CreateModule)
+			}, 
+			{
 				path: 'story',
 				canActivate: [MetaGuard],
 				data: {

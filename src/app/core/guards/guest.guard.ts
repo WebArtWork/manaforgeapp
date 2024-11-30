@@ -7,7 +7,7 @@ export class GuestGuard {
 
 	canActivate(): boolean {
 		if (localStorage.getItem('waw_user')) {
-			this.router.navigateByUrl('/profile');
+			this.router.navigateByUrl('/menu');
 
 			return false;
 		} else {
