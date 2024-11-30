@@ -1,0 +1,18 @@
+<app-menu-welcome
+	(changeScreen)="screen = $event"
+	*ngIf="screen === 'welcome'"
+></app-menu-welcome>
+
+<app-menu-create
+	(changeScreen)="screen = $event"
+	*ngIf="screen === 'create'"
+></app-menu-create>
+
+<app-menu-join
+	(changeScreen)="screen = $event"
+	*ngIf="screen === 'join'"
+></app-menu-join>
+
+<div *ngFor="let gameplay of mgs.manaforges" (click)="mgs.load(gameplay)">
+	{{gameplay|json}}
+</div>
