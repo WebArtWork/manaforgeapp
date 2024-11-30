@@ -7,6 +7,14 @@ const routes: Routes = [
 	{
 		path: '',
 		component: StoriesComponent
+	},
+	{
+		path: ':world',
+		component: StoriesComponent
+	},
+	{
+		path: ':world/:story',
+		component: StoriesComponent
 	}
 ];
 

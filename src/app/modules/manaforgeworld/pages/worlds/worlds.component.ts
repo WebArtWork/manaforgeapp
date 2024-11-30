@@ -15,7 +15,10 @@ import { manaforgeworldFormComponents } from '../../formcomponents/manaforgeworl
 export class WorldsComponent {
 	columns = ['name', 'description'];
 
-	form: FormInterface = this._form.getForm('manaforgeworld', manaforgeworldFormComponents);
+	form: FormInterface = this._form.getForm(
+		'manaforgeworld',
+		manaforgeworldFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -24,18 +27,22 @@ export class WorldsComponent {
 				click: (created: unknown, close: () => void) => {
 					this._preCreate(created as Manaforgeworld);
 
-					this._manaforgeworldService.create(created as Manaforgeworld);
+					this._manaforgeworldService.create(
+						created as Manaforgeworld
+					);
 
 					close();
 				}
 			});
 		},
 		update: (doc: Manaforgeworld): void => {
-			this._form.modal<Manaforgeworld>(this.form, [], doc).then((updated: Manaforgeworld) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Manaforgeworld>(this.form, [], doc)
+				.then((updated: Manaforgeworld) => {
+					this._core.copy(updated, doc);
 
-				this._manaforgeworldService.update(doc);
-			});
+					this._manaforgeworldService.update(doc);
+				});
 		},
 		delete: (doc: Manaforgeworld): void => {
 			this._alert.question({
@@ -59,7 +66,17 @@ export class WorldsComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Manaforgeworld): void => {
-					this._form.modalUnique<Manaforgeworld>('manaforgeworld', 'url', doc);
+					this._form.modalUnique<Manaforgeworld>(
+						'manaforgeworld',
+						'url',
+						doc
+					);
+				}
+			},
+			{
+				icon: 'auto_stories',
+				hrefFunc: (doc: Manaforgeworld): string => {
+					return '/stories/' + doc._id;
 				}
 			},
 			{
@@ -85,13 +102,13 @@ export class WorldsComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
@@ -120,26 +137,41 @@ export class WorldsComponent {
 						}
 					} else {
 						for (const manaforgeworld of this.rows) {
-							if (!manaforgeworlds.find(
-								localManaforgeworld => localManaforgeworld._id === manaforgeworld._id
-							)) {
-								this._manaforgeworldService.delete(manaforgeworld);
+							if (
+								!manaforgeworlds.find(
+									(localManaforgeworld) =>
+										localManaforgeworld._id ===
+										manaforgeworld._id
+								)
+							) {
+								this._manaforgeworldService.delete(
+									manaforgeworld
+								);
 							}
 						}
 
 						for (const manaforgeworld of manaforgeworlds) {
 							const localManaforgeworld = this.rows.find(
-								localManaforgeworld => localManaforgeworld._id === manaforgeworld._id
+								(localManaforgeworld) =>
+									localManaforgeworld._id ===
+									manaforgeworld._id
 							);
 
 							if (localManaforgeworld) {
-								this._core.copy(manaforgeworld, localManaforgeworld);
+								this._core.copy(
+									manaforgeworld,
+									localManaforgeworld
+								);
 
-								this._manaforgeworldService.update(localManaforgeworld);
+								this._manaforgeworldService.update(
+									localManaforgeworld
+								);
 							} else {
 								this._preCreate(manaforgeworld);
 
-								this._manaforgeworldService.create(manaforgeworld);
+								this._manaforgeworldService.create(
+									manaforgeworld
+								);
 							}
 						}
 					}

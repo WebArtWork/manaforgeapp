@@ -9,12 +9,14 @@ import {
 } from 'wacom';
 
 @Injectable({
-	providedIn: 'root',
+	providedIn: 'root'
 })
 export class ManaforgestoryService extends CrudService<Manaforgestory> {
 	manaforgestorys: Manaforgestory[] = this.getDocs();
 
-	manaforgestorysByAuthor: Record<string, Manaforgestory[]> = {};
+	manaforgestorysByStory: Record<string, Manaforgestory[]> = {};
+
+	manaforgestorysByWorld: Record<string, Manaforgestory[]> = {};
 
 	constructor(
 		_http: HttpService,
@@ -24,7 +26,7 @@ export class ManaforgestoryService extends CrudService<Manaforgestory> {
 	) {
 		super(
 			{
-				name: 'manaforgestory',
+				name: 'manaforgestory'
 			},
 			_http,
 			_store,
@@ -34,6 +36,8 @@ export class ManaforgestoryService extends CrudService<Manaforgestory> {
 
 		this.get();
 
-		this.filteredDocuments(this.manaforgestorysByAuthor);
+		this.filteredDocuments(this.manaforgestorysByStory, 'story');
+
+		this.filteredDocuments(this.manaforgestorysByWorld, 'world');
 	}
 }

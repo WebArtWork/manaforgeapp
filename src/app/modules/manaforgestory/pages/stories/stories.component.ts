@@ -6,6 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { manaforgestoryFormComponents } from '../../formcomponents/manaforgestory.formcomponents';
+import { Router } from '@angular/router';
 
 @Component({
 	templateUrl: './stories.component.html',
@@ -13,9 +14,22 @@ import { manaforgestoryFormComponents } from '../../formcomponents/manaforgestor
 	standalone: false
 })
 export class StoriesComponent {
+	world = this._router.url.includes('/stories/')
+		? this._router.url.split('/')[2]
+		: '';
+
+	story =
+		this._router.url.includes('/stories/') &&
+		this._router.url.split('/').length > 3
+			? this._router.url.split('/')[3]
+			: '';
+
 	columns = ['name', 'description'];
 
-	form: FormInterface = this._form.getForm('manaforgestory', manaforgestoryFormComponents);
+	form: FormInterface = this._form.getForm(
+		'manaforgestory',
+		manaforgestoryFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -24,18 +38,22 @@ export class StoriesComponent {
 				click: (created: unknown, close: () => void) => {
 					this._preCreate(created as Manaforgestory);
 
-					this._manaforgestoryService.create(created as Manaforgestory);
+					this._manaforgestoryService.create(
+						created as Manaforgestory
+					);
 
 					close();
 				}
 			});
 		},
 		update: (doc: Manaforgestory): void => {
-			this._form.modal<Manaforgestory>(this.form, [], doc).then((updated: Manaforgestory) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Manaforgestory>(this.form, [], doc)
+				.then((updated: Manaforgestory) => {
+					this._core.copy(updated, doc);
 
-				this._manaforgestoryService.update(doc);
-			});
+					this._manaforgestoryService.update(doc);
+				});
 		},
 		delete: (doc: Manaforgestory): void => {
 			this._alert.question({
@@ -59,26 +77,42 @@ export class StoriesComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Manaforgestory): void => {
-					this._form.modalUnique<Manaforgestory>('manaforgestory', 'url', doc);
+					this._form.modalUnique<Manaforgestory>(
+						'manaforgestory',
+						'url',
+						doc
+					);
 				}
-			}
+			},
+			this.world
+				? {
+						icon: 'auto_stories',
+						hrefFunc: (doc: Manaforgestory): string => {
+							return `/stories/${this.world}/${doc._id}`;
+						}
+				  }
+				: null
 		],
 		headerButtons: [
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
 	get rows(): Manaforgestory[] {
-		return this._manaforgestoryService.manaforgestorys;
+		return this.story
+			? this._manaforgestoryService.manaforgestorysByStory[this.story]
+			: this.world
+			? this._manaforgestoryService.manaforgestorysByWorld[this.world]
+			: this._manaforgestoryService.manaforgestorys;
 	}
 
 	constructor(
@@ -86,7 +120,8 @@ export class StoriesComponent {
 		private _manaforgestoryService: ManaforgestoryService,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _core: CoreService
+		private _core: CoreService,
+		private _router: Router
 	) {}
 
 	private _bulkManagement(create = true): () => void {
@@ -102,26 +137,41 @@ export class StoriesComponent {
 						}
 					} else {
 						for (const manaforgestory of this.rows) {
-							if (!manaforgestorys.find(
-								localManaforgestory => localManaforgestory._id === manaforgestory._id
-							)) {
-								this._manaforgestoryService.delete(manaforgestory);
+							if (
+								!manaforgestorys.find(
+									(localManaforgestory) =>
+										localManaforgestory._id ===
+										manaforgestory._id
+								)
+							) {
+								this._manaforgestoryService.delete(
+									manaforgestory
+								);
 							}
 						}
 
 						for (const manaforgestory of manaforgestorys) {
 							const localManaforgestory = this.rows.find(
-								localManaforgestory => localManaforgestory._id === manaforgestory._id
+								(localManaforgestory) =>
+									localManaforgestory._id ===
+									manaforgestory._id
 							);
 
 							if (localManaforgestory) {
-								this._core.copy(manaforgestory, localManaforgestory);
+								this._core.copy(
+									manaforgestory,
+									localManaforgestory
+								);
 
-								this._manaforgestoryService.update(localManaforgestory);
+								this._manaforgestoryService.update(
+									localManaforgestory
+								);
 							} else {
 								this._preCreate(manaforgestory);
 
-								this._manaforgestoryService.create(manaforgestory);
+								this._manaforgestoryService.create(
+									manaforgestory
+								);
 							}
 						}
 					}
@@ -131,5 +181,13 @@ export class StoriesComponent {
 
 	private _preCreate(manaforgestory: Manaforgestory): void {
 		manaforgestory.__created;
+
+		if (this.world) {
+			manaforgestory.world = this.world;
+		}
+
+		if (this.story) {
+			manaforgestory.story = this.story;
+		}
 	}
 }
