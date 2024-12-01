@@ -8,6 +8,6 @@
 	*ngIf="screen === 'join'"
 ></app-menu-join>
 
-<div *ngFor="let gameplay of mgs.manaforges" (click)="mgs.load(gameplay)">
+<div *ngFor="let gameplay of mgs.manaforges" routerLink="/{{gameplay.status === 'New' ? 'create' : 'game'}}/{{gameplay._id}}">
 	{{gameplay|json}}
 </div>

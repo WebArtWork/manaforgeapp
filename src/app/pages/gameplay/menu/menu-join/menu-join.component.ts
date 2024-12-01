@@ -15,11 +15,15 @@ export class MenuJoinComponent {
 
 	constructor(private _http: HttpService, private _router: Router) {}
 
-	setCode(code: string): void {
-		this.code = code;
+	setCode(code: string | number | boolean): void {
+		this.code = code.toString();
 	}
 
 	join(): void {
+		if (this.code.length !== 6) {
+			return;
+		}
+
 		this._http
 			.post('/api/manaforge/join', {
 				code: this.code

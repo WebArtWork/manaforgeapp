@@ -2,7 +2,6 @@
 <label
 	*ngIf="type !== 'radio' && type !== 'checkbox' && type !== 'textarea'"
 	class="w-forms"
-	[for]="name"
 >
 	<span class="w-forms__title" *ngIf="label">{{ label }}</span>
 	<input
@@ -28,7 +27,7 @@
 
 <!-- Textarea -->
 <ng-container *ngIf="type === 'textarea'">
-	<label class="w-forms" [for]="name">
+	<label class="w-forms">
 		<span class="w-forms__title">{{ label }}</span>
 		<textarea
 			(ngModelChange)="value = $event; onChange()"

@@ -9,11 +9,11 @@ export const manaforgeheroFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill manaforgehero title',
+					value: 'fill hero title'
 				},
 				{
 					name: 'Label',
-					value: 'Title',
+					value: 'Title'
 				}
 			]
 		},
@@ -23,13 +23,27 @@ export const manaforgeheroFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill manaforgehero description',
+					value: 'fill hero description'
 				},
 				{
 					name: 'Label',
-					value: 'Description',
+					value: 'Description'
+				}
+			]
+		},
+		{
+			name: 'Photo',
+			key: 'thumb',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'fill hero thumb'
+				},
+				{
+					name: 'Label',
+					value: 'Thumb'
 				}
 			]
 		}
 	]
-}
+};

@@ -4,4 +4,5 @@ export interface Manaforgehero extends CrudDocument {
 	name: string;
 	description: string;
 	world: string;
+	thumb: string;
 }

@@ -1,2 +1,10 @@
-<winput type="number" (wChange)="setCode($event)"></winput>
+<wbutton (click)="changeScreen.emit('welcome')">Back</wbutton>
+
+<winput
+	label="Write code from the game created by your host"
+	(wChange)="setCode($event)"
+	[focused]="true"
+	type="number"
+></winput>
+
 <wbutton (click)="join()">Join</wbutton>
